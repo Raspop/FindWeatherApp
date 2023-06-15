@@ -10,7 +10,15 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class GetDataFromInternet extends AsyncTask<URL, Void, String> {
-    private static final String TAG = "GetDataFromInternet";
+    protected static final String TAG = "GetDataFromInternet";
+
+    public interface AsyncResponse {
+        void processFinish(String output);
+    }
+    public AsyncResponse delegate;
+    public GetDataFromInternet(AsyncResponse delegate){
+        this.delegate = delegate;
+    }
 
     protected String getResponseFromHttpGetUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -32,7 +40,7 @@ public class GetDataFromInternet extends AsyncTask<URL, Void, String> {
     @Override
     protected String doInBackground(URL... urls) {
         String result = null;
-        URL urlQuerry =  urls[0];
+        URL urlQuerry = urls[0];
         try {
             result = getResponseFromHttpGetUrl(urlQuerry);
         } catch (IOException e) {
@@ -51,6 +59,7 @@ public class GetDataFromInternet extends AsyncTask<URL, Void, String> {
     protected void onPostExecute(String result) {
         Log.d(TAG, "onPostExecute: called");
         Log.d(TAG, "onPostExecute: " + result);
+        delegate.processFinish(result);
 
     }
 
