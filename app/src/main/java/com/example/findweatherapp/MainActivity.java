@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         try {
-            URL url = new URL("https://api.openweathermap.org/data/2.5/weather/?q=Kazan&appid=4a0c12f2644c638207a1f1cfa680aed6");
+            URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=Ekaterinburg,ru&APPID=579d66ae4b212f4bb525d7928ef3f71f");
             new GetDataFromInternet().execute(url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
